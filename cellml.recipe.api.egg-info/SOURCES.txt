@@ -1,0 +1,16 @@
+README.txt
+setup.cfg
+setup.py
+cellml/__init__.py
+cellml.recipe.api.egg-info/PKG-INFO
+cellml.recipe.api.egg-info/SOURCES.txt
+cellml.recipe.api.egg-info/dependency_links.txt
+cellml.recipe.api.egg-info/entry_points.txt
+cellml.recipe.api.egg-info/namespace_packages.txt
+cellml.recipe.api.egg-info/not-zip-safe
+cellml.recipe.api.egg-info/requires.txt
+cellml.recipe.api.egg-info/top_level.txt
+cellml/recipe/__init__.py
+cellml/recipe/api/__init__.py
+cellml/recipe/api/tests/__init__.py
+cellml/recipe/api/tests/test_docs.py
