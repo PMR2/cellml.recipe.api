@@ -1,20 +1,13 @@
 # -*- coding: utf-8 -*-
 """Recipe api"""
 
-class Recipe(object):
-    """zc.buildout recipe"""
+import zc.recipe.cmmi
 
-    def __init__(self, buildout, name, options):
-        self.buildout, self.name, self.options = buildout, name, options
 
-    def install(self):
-        """Installer"""
-        # XXX Implement recipe functionality here
-        
-        # Return files that were created by the recipe. The buildout
-        # will remove all returned files upon reinstall.
-        return tuple()
+class Recipe(zc.recipe.cmmi.Recipe):
+    """\
+    CellML API building recipe.
 
-    def update(self):
-        """Updater"""
-        pass
+    Currently it's a direct clone of zc.recipe.cmmi, until specific
+    modifications are required.
+    """
