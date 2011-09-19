@@ -1,4 +1,3 @@
-README.txt
 setup.cfg
 setup.py
 cellml/__init__.py

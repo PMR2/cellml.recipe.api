@@ -11,17 +11,17 @@ def read(*rnames):
 version = '0.0'
 
 long_description = (
-    read('README.txt')
+    read('README.rst')
     + '\n' +
     'Change history\n'
     '**************\n'
     + '\n' + 
-    read('CHANGES.txt')
+    read('CHANGES.rst')
     + '\n' +
     'Detailed Documentation\n'
     '**********************\n'
     + '\n' +
-    read('cellml', 'recipe', 'api', 'README.txt')
+    read('cellml', 'recipe', 'api', 'README.rst')
     + '\n' +
     'Contributors\n' 
     '************\n'
