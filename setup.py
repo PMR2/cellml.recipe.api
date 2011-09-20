@@ -58,8 +58,9 @@ setup(name='cellml.recipe.api',
       include_package_data=True,
       zip_safe=False,
       install_requires=['setuptools',
-                        'zc.buildout'
+                        'zc.buildout',
                         # -*- Extra requirements: -*-
+                        'zc.recipe.cmmi',
                         ],
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
