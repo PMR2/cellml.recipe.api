@@ -1,20 +1,50 @@
+Overview
+========
+
+This is the recipe that will build the CellML API Python bindings with
+all options enabled by default.  Currently, there are some limitations,
+such as all dependencies must be installed manually, and I don't think
+this will work under Windows at the moment.
+
+
 Supported options
 =================
 
 The recipe supports the following options:
 
-.. Note to recipe author!
-   ----------------------
-   For each option the recipe uses you shoud include a description
-   about the purpose of the option, the format and semantics of the
-   values it accepts, whether it is mandatory or optional and what the
-   default value is if it is omitted.
+api-version
+    CellML API version to build.  Valid versions any versions that build
+    via CMake and has Python bindings (>1.10), and must be present in
+    the list of valid versions.
 
-option1
-    Description for ``option1``...
+cmake-generator
+    The generator to use.  Only `Unix Makefiles` is supported
 
-option2
-    Description for ``option2``...
+check-build
+    Whether to check build time dependencies.  Default is off because it
+    didn't detect GSL libraries even though it was installed for me.
+    Same as passing `-DCHECK_BUILD:BOOL=OFF` to `cmake`.
+
+Other supported options:
+
+    - enable-examples
+    - enable-annotools
+    - enable-ccgs
+    - enable-celeds
+    - enable-celeds-exporter
+    - enable-cevas
+    - enable-cis
+    - enable-cuses
+    - enable-gsl-integrators
+    - enable-malaes
+    - enable-python
+    - enable-rdf
+    - enable-spros
+    - enable-srus
+    - enable-telecems
+    - enable-vacss
+
+Please refer to the CellML API Documentations for what these options do.
 
 
 Example usage
