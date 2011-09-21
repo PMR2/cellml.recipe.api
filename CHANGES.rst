@@ -1,4 +1,4 @@
-0.0 (xxxx-xx-xx)
-==================
+0.1 (2011-09-21)
+================
 
- - Created recipe with ZopeSkel [Tommy Yu].
+- Initial release of the CellML API Python bindings buildout.
