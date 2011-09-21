@@ -92,7 +92,10 @@ class Recipe(zc.recipe.cmmi.Recipe):
         # continue on with the parent, with our modified options.
         super(Recipe, self).__init__(buildout, name, api_options)
 
-        # further processing
+        # Since we did create and pass in a completely new dictionary
+        # into super class, the location value needs to be assigned
+        # back into here too.
+        options['location'] = api_options['location']
 
     def build_options(self, cmake_generator, options):
         results = []
