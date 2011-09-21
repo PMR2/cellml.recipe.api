@@ -1,8 +1,11 @@
 CHANGES.rst
+CONTRIBUTORS.txt
+COPYING.txt
 MANIFEST.in
 README.rst
 setup.cfg
 setup.py
+zopeskel.txt
 cellml/__init__.py
 cellml/__init__.pyo
 cellml.recipe.api.egg-info/PKG-INFO
