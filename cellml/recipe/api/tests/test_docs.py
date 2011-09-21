@@ -15,13 +15,14 @@ optionflags =  (doctest.ELLIPSIS |
                 doctest.REPORT_ONLY_FIRST_FAILURE)
 
 def setUp(test):
+    import zc.recipe.cmmi
     zc.buildout.testing.buildoutSetUp(test)
 
     # Install the recipe in develop mode
     zc.buildout.testing.install_develop('cellml.recipe.api', test)
 
     # Install any other recipes that should be available in the tests
-    #zc.buildout.testing.install('collective.recipe.foobar', test)
+    zc.buildout.testing.install_develop('zc.recipe.cmmi', test)
 
 def test_suite():
     suite = unittest.TestSuite((
