@@ -1,91 +1,94 @@
-Overview
-========
-
-This is the recipe that will build the CellML API Python bindings with
-all options enabled by default.  Currently, there are some limitations,
-such as all dependencies must be installed manually, and I don't think
-this will work under Windows at the moment.
-
-
-Supported options
-=================
-
-The recipe supports the following options:
-
-api-version
-    CellML API version to build.  Valid versions any versions that build
-    via CMake and has Python bindings (>1.10), and must be present in
-    the list of valid versions.
-
-cmake-generator
-    The generator to use.  Only `Unix Makefiles` is supported
-
-check-build
-    Whether to check build time dependencies.  Default is off because it
-    didn't detect GSL libraries even though it was installed for me.
-    Same as passing `-DCHECK_BUILD:BOOL=OFF` to `cmake`.
-
-Other supported options:
-
-    - enable-examples
-    - enable-annotools
-    - enable-ccgs
-    - enable-celeds
-    - enable-celeds-exporter
-    - enable-cevas
-    - enable-cis
-    - enable-cuses
-    - enable-gsl-integrators
-    - enable-malaes
-    - enable-python
-    - enable-rdf
-    - enable-spros
-    - enable-srus
-    - enable-telecems
-    - enable-vacss
-
-Please refer to the CellML API Documentations for what these options do.
-
-
-Example usage
+Demonstration
 =============
 
-.. Note to recipe author!
-   ----------------------
-   zc.buildout provides a nice testing environment which makes it
-   relatively easy to write doctests that both demonstrate the use of
-   the recipe and test it.
-   You can find examples of recipe doctests from the PyPI, e.g.
-   
-     http://pypi.python.org/pypi/zc.recipe.egg
+This recipe extends on the ``zc.recipe.cmmi`` with the caveat where
+cmake is called instead of the ``./configure`` scripts, yet have cmake
+generate ``Unix Makefiles`` such that the ``make``/``make install`` that
+cmmi calls will proceed as normal.
 
-   The PyPI page for zc.buildout contains documentation about the test
-   environment.
+For the demonstration, instead of download/building the entire API, we
+are going to make use of the mock-ups (which is previous setup).
+::
 
-     http://pypi.python.org/pypi/zc.buildout#testing-support
+    >>> ls(distros)
+    -  cellml-api-0.0fake.tgz
 
-   Below is a skeleton doctest that you can start with when building
-   your own tests.
+    >>> distros_url = start_server(distros)
+    >>> archive_url = '%scellml-api-0.0fake.tgz' % distros_url
 
-We'll start by creating a buildout that uses the recipe::
+Let's create our buildout, but modified so that we use our fake archive.
+::
 
     >>> write('buildout.cfg',
     ... """
     ... [buildout]
-    ... parts = test1
+    ... parts = cellml-api
     ...
-    ... [test1]
+    ... [cellml-api]
     ... recipe = cellml.recipe.api
-    ... option1 = %(foo)s
-    ... option2 = %(bar)s
-    ... """ % { 'foo' : 'value1', 'bar' : 'value2'})
+    ... api-version = 0.0fake
+    ... """)
 
-Running the buildout gives us::
+As our mocked up api version is not listed as an available version, 
+buildout will die.
+::
 
-    >>> print 'start', system(buildout) # doctest:+ELLIPSIS
+    >>> print 'start', system(buildout)
     start...
-    Installing test1.
-    Unused options for test1: 'option2' 'option1'.
+      Installing.
+      Getting section cellml-api.
+      Initializing part cellml-api.
+    ...
+    Traceback (most recent call last):
+    ...
+    ValueError: api-version `0.0fake` is not a supported version of...
     <BLANKLINE>
 
+Well, since our fake version is obviously not going to be added into the
+listing of supported APIs, we can still provide our url and md5sum, as
+the original function provided by ``zc.recipe.cmmi`` is still in effect.
+Rewrite buildout.cfg with the desired attributes.
+::
+
+    >>> try: from hashlib import md5
+    ... except ImportError: from md5 import new as md5
+    >>> m = md5(open(join(distros, 'cellml-api-0.0fake.tgz')
+    ...             ).read()).hexdigest()
+    >>> write('buildout.cfg',
+    ... """
+    ... [buildout]
+    ... parts = cellml-api
+    ...
+    ... [cellml-api]
+    ... recipe = cellml.recipe.api
+    ... url = %s
+    ... md5sum = %s
+    ... """ % (archive_url, m))
+
+    >>> print 'start', system(buildout)
+    start...
+    ...
+    CMake Warning:
+      Manually-specified variables were not used by the project:
+    <BLANKLINE>
+        CHECK_BUILD
+        ENABLE_ANNOTOOLS
+        ENABLE_CCGS
+        ENABLE_CELEDS
+        ENABLE_CELEDS_EXPORTER
+        ENABLE_CEVAS
+        ENABLE_CIS
+        ENABLE_CUSES
+        ENABLE_EXAMPLES
+        ENABLE_GSL_INTEGRATORS
+        ENABLE_MALAES
+        ENABLE_PYTHON
+        ENABLE_RDF
+        ENABLE_SPROS
+        ENABLE_SRUS
+        ENABLE_TELECEMS
+        ENABLE_VACSS
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
 

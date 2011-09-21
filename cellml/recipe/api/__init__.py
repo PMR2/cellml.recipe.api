@@ -3,55 +3,34 @@
 
 import zc.recipe.cmmi
 
+_api_info = {
+    '1.0': (
+        'http://sourceforge.net/projects/cellml-api/files/CellML-API-Nightly/1.10/20110913/src/cellml-api-1.10.tar.bz2/download',
+        '37a2cf957e9db43e21c9e43f6ec3b17f',
+    ),
+}
+latest = '1.0'
+
+def get_api_info(version=latest):
+    info = _api_info.get(version, None)
+    if info is None:
+        raise ValueError(
+            'api-version `%s` is not a supported version of CellML API.' 
+            % version
+        )
+    return info
+
 
 class Recipe(zc.recipe.cmmi.Recipe):
     """\
-    CellML API building recipe.
+    CellML API recipe.
 
-    Currently it's a direct clone of zc.recipe.cmmi, until specific
-    modifications are required.
-
-    There are new options introduced, and they are:
-
-      - api-version
-      
-        Version number of the CellML API.  Valid versions any versions
-        that build via CMake and has Python bindings (>1.10), and must
-        be present in the list of valid versions.
-
-      - cmake-generator
-
-        The generator to use.  Only `Unix Makefiles` is supported
-
-      - check-build
-
-        Whether to check build time dependencies.  Default is off 
-        because it didn't detect GSL libraries even though it was
-        installed for me.
-
-      - enable-examples
-      - enable-annotools
-      - enable-ccgs
-      - enable-celeds
-      - enable-celeds-exporter
-      - enable-cevas
-      - enable-cis
-      - enable-cuses
-      - enable-gsl-integrators
-      - enable-malaes
-      - enable-python
-      - enable-rdf
-      - enable-spros
-      - enable-srus
-      - enable-telecems
-      - enable-vacss
-
-        Please refer to the CellML API Documentations for what these
-        options do.
-
+    Largely built on top of `zc.recipe.cmmi`.
     """
 
     option_passthru_keys = [
+        'url',  # user might have their own source tarball
+        'md5sum',  # and respective md5sum
         'autogen',  # XXX to be ignored because autogen is not used.
         'patch',
         'patch_options',
@@ -84,11 +63,20 @@ class Recipe(zc.recipe.cmmi.Recipe):
 
         # build a set of modified options customized for this.
         api_options = {}
+        # populate it with values that we need to passthrough
+
+        for k in self.option_passthru_keys:
+            api_options[k] = options.get(k, '')
+
         self.api_version = options.get('api-version', None)
         self.cmake_generator = options.get('cmake-generator', 'Unix Makefiles')
 
-        api_options['url'], api_options['md5sum'] = get_api_info(
-            self.api_version)
+        if not api_options['url']:
+            # if user did not specified a specific url we assume to
+            # check for a version.
+            api_options['url'], api_options['md5sum'] = get_api_info(
+                self.api_version)
+
         api_options['source-directory-contains'] = options.get(
             'source-directory-contains', 'CMakeLists.txt')
         api_options['configure-command'] = options.get(
@@ -122,12 +110,3 @@ class Recipe(zc.recipe.cmmi.Recipe):
                 '-DCMAKE_INSTALL_RPATH:PATH=%s/lib' % (dest, dest)
 
         return super(Recipe, self).cmmi(dest)
-
-def get_api_info(version):
-    # XXX update this method to acquire matching url/md5sum of specified
-    # version from a list of valid combinations for the API.
-
-    url = 'http://sourceforge.net/projects/cellml-api/files/CellML-API-Nightly/1.10/20110913/src/cellml-api-1.10.tar.bz2/download'
-    md5sum = '37a2cf957e9db43e21c9e43f6ec3b17f'
-
-    return url, md5sum

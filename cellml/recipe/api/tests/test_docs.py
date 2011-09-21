@@ -4,6 +4,10 @@ Doctest runner for 'cellml.recipe.api'.
 """
 __docformat__ = 'restructuredtext'
 
+import os.path
+import tarfile
+import StringIO
+
 import unittest
 import zc.buildout.tests
 import zc.buildout.testing
@@ -24,6 +28,17 @@ def setUp(test):
     # Install any other recipes that should be available in the tests
     zc.buildout.testing.install_develop('zc.recipe.cmmi', test)
 
+    distros = test.globs['distros'] = test.globs['tmpdir']('distros')
+    tarpath = os.path.join(distros, 'cellml-api-0.0fake.tgz')
+    tar = tarfile.open(tarpath, 'w:gz')
+
+    cmakelists_txt = cmakelists_txt_template
+    info = tarfile.TarInfo('CMakeLists.txt')
+    info.size = len(cmakelists_txt)
+    info.mode = 0644
+    tar.addfile(info, StringIO.StringIO(cmakelists_txt))
+
+
 def test_suite():
     suite = unittest.TestSuite((
             doctest.DocFileSuite(
@@ -43,6 +58,12 @@ def test_suite():
                 ),
             ))
     return suite
+
+cmakelists_txt_template = """\
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+PROJECT(HELLO)
+INSTALL(TARGETS DESTINATION)
+"""
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')
