@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: cellml.recipe.api
-Version: 0.1dev
+Version: 0.1
 Summary: Recipe to call CMake to build CellML API and Python bindings
 Home-page: http://www.cellml.org/tools/api/
 Author: Tommy Yu
