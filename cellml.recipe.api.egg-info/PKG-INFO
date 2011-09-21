@@ -1,47 +1,19 @@
 Metadata-Version: 1.0
 Name: cellml.recipe.api
-Version: 0.0dev
+Version: 0.1dev
 Summary: Recipe to call CMake to build CellML API and Python bindings
-Home-page: UNKNOWN
+Home-page: http://www.cellml.org/tools/api/
 Author: Tommy Yu
 Author-email: tommy.yu@auckland.ac.nz
-License: GPL
-Description: .. contents::
-        
-        .. Note to recipe author!
-        ---------------------
-        Update the following URLs to point to your:
-        
-        - code repository
-        - bug tracker
-        - questions/comments feedback mail
-        (do not set a real mail, to avoid spams)
-        
-        Or remove it if not used.
-        
-        - Code repository: http://svn.somewhere.com/...
-        - Questions and comments to somemailing_list
-        - Report bugs at http://bug.somewhere.com/..
-        
-        
-        Change history
-        **************
-        
-        0.0 (xxxx-xx-xx)
-        ==================
-        
-        - Created recipe with ZopeSkel [Tommy Yu].
-        
-        Detailed Documentation
-        **********************
-        
-        Overview
+License: GPL/LGPL/MPL
+Description: Overview
         ========
         
         This is the recipe that will build the CellML API Python bindings with
         all options enabled by default.  Currently, there are some limitations,
-        such as all dependencies must be installed manually, and I don't think
-        this will work under Windows at the moment.
+        such as all dependencies required to build the CellML API must be
+        installed before this recipe can be used, and I don't think this will
+        work under Windows at the moment.
         
         
         Supported options
@@ -55,12 +27,14 @@ Description: .. contents::
         the list of valid versions.
         
         cmake-generator
-        The generator to use.  Only `Unix Makefiles` is supported
+        The generator to use.  Only the default option ``Unix Makefiles`` is
+        supported, as this recipe is built on top of ``zc.recipe.cmmi``
+        which will make use of ``make`` and ``make install``.
         
         check-build
         Whether to check build time dependencies.  Default is off because it
         didn't detect GSL libraries even though it was installed for me.
-        Same as passing `-DCHECK_BUILD:BOOL=OFF` to `cmake`.
+        Same as passing ``-DCHECK_BUILD:BOOL=OFF`` to ``cmake``.
         
         Other supported options:
         
@@ -81,50 +55,127 @@ Description: .. contents::
         - enable-telecems
         - enable-vacss
         
-        Please refer to the CellML API Documentations for what these options do.
+        Please refer to the `CellML API Documentations`_ for what these options
+        do.
+        
+        .. _CellML API Documentations: http://cellml-api.sourceforge.net/
         
         
-        Example usage
+        Copyright/License information
+        =============================
+        
+        This software is released under the MPL/GPL/LGPL licenses.
+        
+        Please refer to the file ``COPYING.txt`` for detailed copyright
+        information, and ``docs`` directory for specific licenses that this
+        software is released under.
+        
+        Change history
+        **************
+        
+        0.1 (2011-09-21)
+        ================
+        
+        - Initial release of the CellML API Python bindings buildout.
+        
+        
+        
+        Detailed Documentation
+        **********************
+        
+        Demonstration
         =============
         
-        .. Note to recipe author!
-        ----------------------
-        zc.buildout provides a nice testing environment which makes it
-        relatively easy to write doctests that both demonstrate the use of
-        the recipe and test it.
-        You can find examples of recipe doctests from the PyPI, e.g.
+        This recipe extends on the ``zc.recipe.cmmi`` with the caveat where
+        cmake is called instead of the ``./configure`` scripts, yet have cmake
+        generate ``Unix Makefiles`` such that the ``make``/``make install`` that
+        cmmi calls will proceed as normal.
         
-        http://pypi.python.org/pypi/zc.recipe.egg
+        For the demonstration, instead of download/building the entire API, we
+        are going to make use of the mock-ups (which is previous setup).
+        ::
         
-        The PyPI page for zc.buildout contains documentation about the test
-        environment.
+        >>> ls(distros)
+        -  cellml-api-0.0fake.tgz
         
-        http://pypi.python.org/pypi/zc.buildout#testing-support
+        >>> distros_url = start_server(distros)
+        >>> archive_url = '%scellml-api-0.0fake.tgz' % distros_url
         
-        Below is a skeleton doctest that you can start with when building
-        your own tests.
-        
-        We'll start by creating a buildout that uses the recipe::
+        Let's create our buildout, but modified so that we use our fake archive.
+        ::
         
         >>> write('buildout.cfg',
         ... """
         ... [buildout]
-        ... parts = test1
+        ... parts = cellml-api
         ...
-        ... [test1]
+        ... [cellml-api]
         ... recipe = cellml.recipe.api
-        ... option1 = %(foo)s
-        ... option2 = %(bar)s
-        ... """ % { 'foo' : 'value1', 'bar' : 'value2'})
+        ... api-version = 0.0fake
+        ... """)
         
-        Running the buildout gives us::
+        As our mocked up api version is not listed as an available version,
+        buildout will die.
+        ::
         
-        >>> print 'start', system(buildout) # doctest:+ELLIPSIS
+        >>> print 'start', system(buildout)
         start...
-        Installing test1.
-        Unused options for test1: 'option2' 'option1'.
+        Installing.
+        Getting section cellml-api.
+        Initializing part cellml-api.
+        ...
+        Traceback (most recent call last):
+        ...
+        ValueError: api-version `0.0fake` is not a supported version of...
         <BLANKLINE>
         
+        Well, since our fake version is obviously not going to be added into the
+        listing of supported APIs, we can still provide our url and md5sum, as
+        the original function provided by ``zc.recipe.cmmi`` is still in effect.
+        Rewrite buildout.cfg with the desired attributes.
+        ::
+        
+        >>> try: from hashlib import md5
+        ... except ImportError: from md5 import new as md5
+        >>> m = md5(open(join(distros, 'cellml-api-0.0fake.tgz')
+        ...             ).read()).hexdigest()
+        >>> write('buildout.cfg',
+        ... """
+        ... [buildout]
+        ... parts = cellml-api
+        ...
+        ... [cellml-api]
+        ... recipe = cellml.recipe.api
+        ... url = %s
+        ... md5sum = %s
+        ... """ % (archive_url, m))
+        
+        >>> print 'start', system(buildout)
+        start...
+        ...
+        CMake Warning:
+        Manually-specified variables were not used by the project:
+        <BLANKLINE>
+        CHECK_BUILD
+        ENABLE_ANNOTOOLS
+        ENABLE_CCGS
+        ENABLE_CELEDS
+        ENABLE_CELEDS_EXPORTER
+        ENABLE_CEVAS
+        ENABLE_CIS
+        ENABLE_CUSES
+        ENABLE_EXAMPLES
+        ENABLE_GSL_INTEGRATORS
+        ENABLE_MALAES
+        ENABLE_PYTHON
+        ENABLE_RDF
+        ENABLE_SPROS
+        ENABLE_SRUS
+        ENABLE_TELECEMS
+        ENABLE_VACSS
+        <BLANKLINE>
+        <BLANKLINE>
+        <BLANKLINE>
         
         
         Contributors
@@ -136,9 +187,12 @@ Description: .. contents::
         Download
         ********
         
+Keywords: cellml
 Platform: UNKNOWN
 Classifier: Framework :: Buildout
 Classifier: Intended Audience :: Developers
 Classifier: Topic :: Software Development :: Build Tools
 Classifier: Topic :: Software Development :: Libraries :: Python Modules
 Classifier: License :: OSI Approved :: GNU General Public License (GPL)
+Classifier: License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+Classifier: License :: OSI Approved :: Mozilla Public License 1.1 (MPL 1.1)
