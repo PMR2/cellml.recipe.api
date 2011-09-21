@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: cellml.recipe.api
-Version: 0.2dev
+Version: 0.2
 Summary: Recipe to call CMake to build CellML API and Python bindings
 Home-page: http://www.cellml.org/tools/api/
 Author: Tommy Yu
@@ -72,6 +72,16 @@ Description: Overview
         
         Change history
         **************
+        
+        0.2 (2011-09-21)
+        ================
+        
+        - Fixed the issue where all the expected keys are assigned with an
+        empty string even if unassigned; this caused various unwanted side
+        effects.
+        - Fixed the issue where the location of this buildout recipe is
+        undefined.
+        
         
         0.1 (2011-09-21)
         ================
