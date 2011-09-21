@@ -1,5 +1,7 @@
 recursive-include cellml *
 recursive-include docs *
-global-include *rst
+include *rst
+include *txt
 global-exclude *pyc
 global-exclude .*swp
+prune eggs
