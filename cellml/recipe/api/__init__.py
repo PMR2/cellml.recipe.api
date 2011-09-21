@@ -66,12 +66,15 @@ class Recipe(zc.recipe.cmmi.Recipe):
         # populate it with values that we need to passthrough
 
         for k in self.option_passthru_keys:
-            api_options[k] = options.get(k, '')
+            value = options.get(k, None)
+            if value is not None:
+                # let parent deal with anything missing.
+                api_options[k] = value
 
         self.api_version = options.get('api-version', None)
         self.cmake_generator = options.get('cmake-generator', 'Unix Makefiles')
 
-        if not api_options['url']:
+        if api_options.get('url', None) is None:
             # if user did not specified a specific url we assume to
             # check for a version.
             api_options['url'], api_options['md5sum'] = get_api_info(
