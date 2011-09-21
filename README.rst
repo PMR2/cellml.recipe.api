@@ -47,8 +47,17 @@ Other supported options:
     - enable-telecems
     - enable-vacss
 
-Please refer to the `CellML API Documentations`_ for what these options do.
+Please refer to the `CellML API Documentations`_ for what these options
+do.
 
 .. _CellML API Documentations: http://cellml-api.sourceforge.net/
 
 
+Copyright/License information
+=============================
+
+This software is released under the MPL/GPL/LGPL licenses.
+
+Please refer to the file ``COPYING.txt`` for detailed copyright
+information, and ``docs`` directory for specific licenses that this
+software is released under.
