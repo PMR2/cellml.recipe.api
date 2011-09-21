@@ -4,12 +4,12 @@
 import zc.recipe.cmmi
 
 _api_info = {
-    '1.0': (
+    '1.10': (
         'http://sourceforge.net/projects/cellml-api/files/CellML-API-Nightly/1.10/20110913/src/cellml-api-1.10.tar.bz2/download',
         '37a2cf957e9db43e21c9e43f6ec3b17f',
     ),
 }
-latest = '1.0'
+latest = '1.10'
 
 def get_api_info(version=latest):
     info = _api_info.get(version, None)
