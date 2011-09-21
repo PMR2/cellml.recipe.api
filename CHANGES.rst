@@ -1,3 +1,13 @@
+0.2 (2011-09-21)
+================
+
+- Fixed the issue where all the expected keys are assigned with an
+  empty string even if unassigned; this caused various unwanted side
+  effects.
+- Fixed the issue where the location of this buildout recipe is 
+  undefined.
+
+
 0.1 (2011-09-21)
 ================
 
