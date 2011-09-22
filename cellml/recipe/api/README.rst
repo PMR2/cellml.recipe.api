@@ -86,7 +86,7 @@ Rewrite buildout.cfg with the desired attributes.
         ENABLE_RDF
         ENABLE_SPROS
         ENABLE_SRUS
-        ENABLE_TELECEMS
+        ENABLE_TELICEMS
         ENABLE_VACSS
     <BLANKLINE>
     <BLANKLINE>

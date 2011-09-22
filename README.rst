@@ -44,7 +44,7 @@ Other supported options:
     - enable-rdf
     - enable-spros
     - enable-srus
-    - enable-telecems
+    - enable-telicems
     - enable-vacss
 
 Please refer to the `CellML API Documentations`_ for what these options

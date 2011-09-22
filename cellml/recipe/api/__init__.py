@@ -54,7 +54,7 @@ class Recipe(zc.recipe.cmmi.Recipe):
         'enable-rdf': 'on',
         'enable-spros': 'on',
         'enable-srus': 'on',
-        'enable-telecems': 'on',
+        'enable-telicems': 'on',
         'enable-vacss': 'on',
     }
 
