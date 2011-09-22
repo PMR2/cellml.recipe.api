@@ -1,3 +1,8 @@
+0.3 (Unreleased)
+================
+
+- Corrected typo for the TeLICeM flag.
+
 0.2 (2011-09-21)
 ================
 
