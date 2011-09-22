@@ -20,7 +20,17 @@ with the example ``run.py`` as its parameter.
     loaded model: http://models.cellml.org/e/1/beeler_reuter_1977.cellml
     model cmetaid is: beeler_reuter_1977
 
-It should also function as an interactive interpreter.
+It should also function as an interactive interpreter, however there was
+a `bug`_ where the bootstrap constructor was causing exceptions that did
+not get cleared correctly.  The exception would then be raised elsewhere
+in the execution under certain circumstances, and in this case execution
+of the interpreter is completely terminated (i.e. exit to shell).
+
+This is no longer an issue in the latest development build, so if the
+interactive shell is desired please feel free to modify ``buildout.cfg``
+to extend the develment configuration file.
+
+.. _bug: https://tracker.physiomeproject.org/show_bug.cgi?id=3054
 
 File Details
 ============
