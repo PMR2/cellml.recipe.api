@@ -52,13 +52,49 @@ Description: Overview
         - enable-rdf
         - enable-spros
         - enable-srus
-        - enable-telecems
+        - enable-telicems
         - enable-vacss
         
         Please refer to the `CellML API Documentations`_ for what these options
         do.
         
         .. _CellML API Documentations: http://cellml-api.sourceforge.net/
+        
+        
+        Usage
+        =====
+        
+        As this egg is published on `pypi`_, this recipe can be used right away
+        by including a new part inside a ``buildout.cfg``.  The following is an
+        example configuration:
+        
+        .. _pypi: http://pypi.python.org/
+        
+        ::
+        
+        [buildout]
+        parts =
+        ...
+        cellml-api
+        cellmlpy
+        
+        [cellml-api]
+        recipe = cellml.recipe.api
+        api-version = 1.10
+        
+        [cellmlpy]
+        recipe = zc.recipe.egg
+        eggs =
+        interpreter = cellmlpy
+        scripts = cellmlpy
+        extra-paths = ${cellml-api:location}/lib/python
+        
+        This example ``buildout.cfg`` will build the CellML API v1.10 with all
+        the supported options enabled, and a script will be generated in
+        ``bin/cellmlpy`` which will allow the bindings to be imported without
+        setting ``PYTHONPATH`` and other related environmental variables.
+        Please refer to the examples directory for more detailed instructions
+        and other example usages of this recipe.
         
         
         Copyright/License information
@@ -181,7 +217,7 @@ Description: Overview
         ENABLE_RDF
         ENABLE_SPROS
         ENABLE_SRUS
-        ENABLE_TELECEMS
+        ENABLE_TELICEMS
         ENABLE_VACSS
         <BLANKLINE>
         <BLANKLINE>
