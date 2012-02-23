@@ -47,6 +47,7 @@ class Recipe(zc.recipe.cmmi.Recipe):
         'enable-celeds-exporter': 'on',
         'enable-cevas': 'on',
         'enable-cis': 'on',
+        'enable-cgrs': 'on',
         'enable-cuses': 'on',
         'enable-gsl-integrators': 'on',
         'enable-malaes': 'on',
