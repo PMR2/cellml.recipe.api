@@ -1,7 +1,8 @@
-0.3 (Unreleased)
+0.3 (2012-10-03)
 ================
 
 - Corrected typo for the TeLICeM flag.
+- Added CellML API 1.11.
 
 0.2 (2011-09-21)
 ================
