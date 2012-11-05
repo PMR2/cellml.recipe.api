@@ -12,8 +12,12 @@ _api_info = {
         'http://sourceforge.net/projects/cellml-api/files/CellML-API-Nightly/1.11/20120418/src/cellml-api-1.11.tar.bz2/download',
         '64d608890cdf1d421dc66b933729556d',
     ),
+    '1.12': (
+        'http://sourceforge.net/projects/cellml-api/files/CellML-API-Nightly/1.12/20121031/src/cellml-api-1.12.tar.bz2/download',
+        'fdd111622f53031f9efc8e03ed13d5a6',
+    ),
 }
-latest = '1.11'
+latest = '1.12'
 
 def get_api_info(version=latest):
     info = _api_info.get(version, None)
