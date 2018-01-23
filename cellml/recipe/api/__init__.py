@@ -126,6 +126,7 @@ class Recipe(zc.recipe.cmmi.Recipe):
             # unless it got assigned earlier
             self.configure_options = \
                 '-DCMAKE_INSTALL_PREFIX:PATH=%s ' \
-                '-DCMAKE_INSTALL_RPATH:PATH=%s/lib' % (dest, dest)
+                '-DCMAKE_INSTALL_RPATH:PATH=%s/lib:%s/lib/cgrs_modules' % (
+                    dest, dest, dest)
 
         return super(Recipe, self).cmmi(dest)

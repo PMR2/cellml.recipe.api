@@ -2,6 +2,7 @@
 ================
 
 - Added latest version of CellML API on github.
+- Added RUNPATH into place.
 
 0.4 (2012-11-05)
 ================
