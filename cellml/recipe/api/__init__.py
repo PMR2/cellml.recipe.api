@@ -16,8 +16,12 @@ _api_info = {
         'http://sourceforge.net/projects/cellml-api/files/CellML-API-Nightly/1.12/20121031/src/cellml-api-1.12.tar.bz2/download',
         'fdd111622f53031f9efc8e03ed13d5a6',
     ),
+    'git-20171213': (
+        'https://dist.staging.physiomeproject.org/cellml-api-d7baf903.zip',
+        'b6b3bdee5e7d6f9b55eab9bfcee18924',
+    ),
 }
-latest = '1.12'
+latest = 'git-20171213'
 
 def get_api_info(version=latest):
     info = _api_info.get(version, None)
