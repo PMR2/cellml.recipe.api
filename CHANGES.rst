@@ -1,3 +1,8 @@
+0.5 (2018-01-23)
+================
+
+- Added latest version of CellML API on github.
+
 0.4 (2012-11-05)
 ================
 
