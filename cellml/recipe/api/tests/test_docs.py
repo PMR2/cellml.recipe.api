@@ -6,13 +6,14 @@ __docformat__ = 'restructuredtext'
 
 import os.path
 import tarfile
-import StringIO
+from io import BytesIO
 
 import unittest
+import doctest
 import zc.buildout.tests
 import zc.buildout.testing
 
-from zope.testing import doctest, renormalizing
+from zope.testing import renormalizing
 
 optionflags =  (doctest.ELLIPSIS |
                 doctest.NORMALIZE_WHITESPACE |
@@ -35,8 +36,9 @@ def setUp(test):
     cmakelists_txt = cmakelists_txt_template
     info = tarfile.TarInfo('CMakeLists.txt')
     info.size = len(cmakelists_txt)
-    info.mode = 0644
-    tar.addfile(info, StringIO.StringIO(cmakelists_txt))
+    info.mode = 0o644
+    tar.addfile(info, BytesIO(cmakelists_txt))
+    tar.close()
 
 
 def test_suite():
@@ -59,7 +61,7 @@ def test_suite():
             ))
     return suite
 
-cmakelists_txt_template = """\
+cmakelists_txt_template = b"""\
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(HELLO)
 INSTALL(TARGETS DESTINATION)

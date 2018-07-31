@@ -33,11 +33,11 @@ As our mocked up api version is not listed as an available version,
 buildout will die.
 ::
 
-    >>> print 'start', system(buildout)
+    >>> print('start ' + system(buildout))
     start...
       Installing.
-      Getting section cellml-api.
-      Initializing part cellml-api.
+      Getting ... cellml-api.
+      Initializing ... cellml-api.
     ...
     Traceback (most recent call last):
     ...
@@ -52,7 +52,7 @@ Rewrite buildout.cfg with the desired attributes.
 
     >>> try: from hashlib import md5
     ... except ImportError: from md5 import new as md5
-    >>> m = md5(open(join(distros, 'cellml-api-0.0fake.tgz')
+    >>> m = md5(open(join(distros, 'cellml-api-0.0fake.tgz'), 'rb'
     ...             ).read()).hexdigest()
     >>> write('buildout.cfg',
     ... """
@@ -65,7 +65,7 @@ Rewrite buildout.cfg with the desired attributes.
     ... md5sum = %s
     ... """ % (archive_url, m))
 
-    >>> print 'start', system(buildout)
+    >>> print('start ' + system(buildout))
     start...
     ...
     CMake Warning:
@@ -77,6 +77,7 @@ Rewrite buildout.cfg with the desired attributes.
         ENABLE_CELEDS
         ENABLE_CELEDS_EXPORTER
         ENABLE_CEVAS
+        ENABLE_CGRS
         ENABLE_CIS
         ENABLE_CUSES
         ENABLE_EXAMPLES
