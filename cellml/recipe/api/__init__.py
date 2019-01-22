@@ -17,7 +17,7 @@ _api_info = {
         'fdd111622f53031f9efc8e03ed13d5a6',
     ),
     'git-20171213': (
-        'https://dist.staging.physiomeproject.org/cellml-api-d7baf903.zip',
+        'https://dist.physiomeproject.org/cellml-api-d7baf903.zip',
         'b6b3bdee5e7d6f9b55eab9bfcee18924',
     ),
 }
