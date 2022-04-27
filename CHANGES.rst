@@ -1,3 +1,9 @@
+0.8 (2022-04-27)
+================
+
+- Force a known supported CXX standard because newest gcc defaults to
+  the incompatible c++17 standard.
+
 0.7 (2019-01-23)
 ================
 

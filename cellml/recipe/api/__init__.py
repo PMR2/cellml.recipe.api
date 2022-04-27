@@ -113,6 +113,7 @@ class Recipe(zc.recipe.cmmi.Recipe):
     def build_options(self, cmake_generator, options):
         results = []
         results.append("-G '%s'" % cmake_generator)
+        results.append("-DCMAKE_CXX_STANDARD=11")
         for k, v in self.option_cmake_map.items():
             # convert to cmake keys.
             confkey = k.replace('-', '_').upper()
